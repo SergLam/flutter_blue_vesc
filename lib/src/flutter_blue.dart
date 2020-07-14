@@ -31,10 +31,10 @@ class FlutterBlue {
 
   /// Checks whether the device supports Bluetooth
   Future<bool> get isAvailable =>
-      _channel.invokeMethod('isAvailable').then<bool>((d) => d);
+      _channel.invokeMethod('$METHOD_isAvailable').then<bool>((d) => d);
 
   /// Checks if Bluetooth functionality is turned on
-  Future<bool> get isOn => _channel.invokeMethod('isOn').then<bool>((d) => d);
+  Future<bool> get isOn => _channel.invokeMethod('$METHOD_isOn').then<bool>((d) => d);
 
   BehaviorSubject<bool> _isScanning = BehaviorSubject.seeded(false);
   Stream<bool> get isScanning => _isScanning.stream;
@@ -47,7 +47,7 @@ class FlutterBlue {
   /// Gets the current state of the Bluetooth module
   Stream<BluetoothState> get state async* {
     yield await _channel
-        .invokeMethod('state')
+        .invokeMethod('$METHOD_state')
         .then((buffer) => new protos.BluetoothState.fromBuffer(buffer))
         .then((s) => BluetoothState.values[s.state.value]);
 
@@ -60,7 +60,7 @@ class FlutterBlue {
   /// Retrieve a list of connected devices
   Future<List<BluetoothDevice>> get connectedDevices {
     return _channel
-        .invokeMethod('getConnectedDevices')
+        .invokeMethod('$METHOD_getConnectedDevices')
         .then((buffer) => protos.ConnectedDevicesResponse.fromBuffer(buffer))
         .then((p) => p.devices)
         .then((p) => p.map((d) => BluetoothDevice.fromProto(d)).toList());
@@ -104,7 +104,7 @@ class FlutterBlue {
     _scanResults.add(<ScanResult>[]);
 
     try {
-      await _channel.invokeMethod('startScan', settings.writeToBuffer());
+      await _channel.invokeMethod('$METHOD_startScan', settings.writeToBuffer());
     } catch (e) {
       print('Error starting scan.');
       _stopScanPill.add(null);
@@ -113,7 +113,7 @@ class FlutterBlue {
     }
 
     yield* FlutterBlue.instance._methodStream
-        .where((m) => m.method == "ScanResult")
+        .where((m) => m.method == "$METHOD_ScanResult")
         .map((m) => m.arguments)
         .takeUntil(Rx.merge(killStreams))
         .doOnDone(stopScan)
@@ -151,7 +151,7 @@ class FlutterBlue {
 
   /// Stops a scan for Bluetooth Low Energy devices
   Future stopScan() async {
-    await _channel.invokeMethod('stopScan');
+    await _channel.invokeMethod('$METHOD_stopScan');
     _stopScanPill.add(null);
     _isScanning.add(false);
   }
@@ -168,7 +168,7 @@ class FlutterBlue {
   /// Messages equal or below the log level specified are stored/forwarded,
   /// messages above are dropped.
   void setLogLevel(LogLevel level) async {
-    await _channel.invokeMethod('setLogLevel', level.index);
+    await _channel.invokeMethod('$METHOD_setLogLevel', level.index);
     _logLevel = level;
   }
 

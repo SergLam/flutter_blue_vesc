@@ -5,10 +5,14 @@
 part of flutter_blue;
 
 class FlutterBlue {
+
   final MethodChannel _channel = const MethodChannel('$NAMESPACE/methods');
+
   final EventChannel _stateChannel = const EventChannel('$NAMESPACE/state');
+
   final StreamController<MethodCall> _methodStreamController =
       new StreamController.broadcast(); // ignore: close_sinks
+
   Stream<MethodCall> get _methodStream => _methodStreamController
       .stream; // Used internally to dispatch methods from platform.
 

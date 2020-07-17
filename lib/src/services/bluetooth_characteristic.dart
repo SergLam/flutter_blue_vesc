@@ -45,7 +45,7 @@ class BluetoothCharacteristic {
 
   Stream<BluetoothCharacteristic> get _onCharacteristicChangedStream =>
       FlutterBlue.instance._methodStream
-          .where((m) => m.method == "OnCharacteristicChanged")
+          .where((m) => m.method == "$STREAM_OnCharacteristicChanged")
           .map((m) => m.arguments)
           .map(
               (buffer) => new protos.OnCharacteristicChanged.fromBuffer(buffer))
@@ -81,10 +81,10 @@ class BluetoothCharacteristic {
         'remoteId: ${deviceId.toString()} characteristicUuid: ${uuid.toString()} serviceUuid: ${serviceUuid.toString()}');
 
     await FlutterBlue.instance._channel
-        .invokeMethod('readCharacteristic', request.writeToBuffer());
+        .invokeMethod('$METHOD_readCharacteristic', request.writeToBuffer());
 
     return FlutterBlue.instance._methodStream
-        .where((m) => m.method == "ReadCharacteristicResponse")
+        .where((m) => m.method == "$METHOD_ReadCharacteristicResponse")
         .map((m) => m.arguments)
         .map((buffer) =>
             new protos.ReadCharacteristicResponse.fromBuffer(buffer))
@@ -119,14 +119,14 @@ class BluetoothCharacteristic {
       ..value = value;
 
     var result = await FlutterBlue.instance._channel
-        .invokeMethod('writeCharacteristic', request.writeToBuffer());
+        .invokeMethod('$METHOD_writeCharacteristic', request.writeToBuffer());
 
     if (type == CharacteristicWriteType.withoutResponse) {
       return result;
     }
 
     return FlutterBlue.instance._methodStream
-        .where((m) => m.method == "WriteCharacteristicResponse")
+        .where((m) => m.method == "$METHOD_WriteCharacteristicResponse")
         .map((m) => m.arguments)
         .map((buffer) =>
             new protos.WriteCharacteristicResponse.fromBuffer(buffer))
@@ -151,10 +151,10 @@ class BluetoothCharacteristic {
       ..enable = notify;
 
     await FlutterBlue.instance._channel
-        .invokeMethod('setNotification', request.writeToBuffer());
+        .invokeMethod('$METHOD_setNotification', request.writeToBuffer());
 
     return FlutterBlue.instance._methodStream
-        .where((m) => m.method == "SetNotificationResponse")
+        .where((m) => m.method == "$METHOD_SetNotificationResponse")
         .map((m) => m.arguments)
         .map((buffer) => new protos.SetNotificationResponse.fromBuffer(buffer))
         .where((p) =>
@@ -176,46 +176,3 @@ class BluetoothCharacteristic {
 }
 
 enum CharacteristicWriteType { withResponse, withoutResponse }
-
-@immutable
-class CharacteristicProperties {
-  final bool broadcast;
-  final bool read;
-  final bool writeWithoutResponse;
-  final bool write;
-  final bool notify;
-  final bool indicate;
-  final bool authenticatedSignedWrites;
-  final bool extendedProperties;
-  final bool notifyEncryptionRequired;
-  final bool indicateEncryptionRequired;
-
-  CharacteristicProperties(
-      {this.broadcast = false,
-      this.read = false,
-      this.writeWithoutResponse = false,
-      this.write = false,
-      this.notify = false,
-      this.indicate = false,
-      this.authenticatedSignedWrites = false,
-      this.extendedProperties = false,
-      this.notifyEncryptionRequired = false,
-      this.indicateEncryptionRequired = false});
-
-  CharacteristicProperties.fromProto(protos.CharacteristicProperties p)
-      : broadcast = p.broadcast,
-        read = p.read,
-        writeWithoutResponse = p.writeWithoutResponse,
-        write = p.write,
-        notify = p.notify,
-        indicate = p.indicate,
-        authenticatedSignedWrites = p.authenticatedSignedWrites,
-        extendedProperties = p.extendedProperties,
-        notifyEncryptionRequired = p.notifyEncryptionRequired,
-        indicateEncryptionRequired = p.indicateEncryptionRequired;
-
-  @override
-  String toString() {
-    return 'CharacteristicProperties{broadcast: $broadcast, read: $read, writeWithoutResponse: $writeWithoutResponse, write: $write, notify: $notify, indicate: $indicate, authenticatedSignedWrites: $authenticatedSignedWrites, extendedProperties: $extendedProperties, notifyEncryptionRequired: $notifyEncryptionRequired, indicateEncryptionRequired: $indicateEncryptionRequired}';
-  }
-}

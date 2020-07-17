@@ -34,10 +34,10 @@ class BluetoothDescriptor {
       ..serviceUuid = serviceUuid.toString();
 
     await FlutterBlue.instance._channel
-        .invokeMethod('readDescriptor', request.writeToBuffer());
+        .invokeMethod('$METHOD_readDescriptor', request.writeToBuffer());
 
     return FlutterBlue.instance._methodStream
-        .where((m) => m.method == "ReadDescriptorResponse")
+        .where((m) => m.method == "$STREAM_ReadDescriptorResponse")
         .map((m) => m.arguments)
         .map((buffer) => new protos.ReadDescriptorResponse.fromBuffer(buffer))
         .where((p) =>
@@ -63,10 +63,10 @@ class BluetoothDescriptor {
       ..value = value;
 
     await FlutterBlue.instance._channel
-        .invokeMethod('writeDescriptor', request.writeToBuffer());
+        .invokeMethod('$METHOD_writeDescriptor', request.writeToBuffer());
 
     return FlutterBlue.instance._methodStream
-        .where((m) => m.method == "WriteDescriptorResponse")
+        .where((m) => m.method == "$STREAM_WriteDescriptorResponse")
         .map((m) => m.arguments)
         .map((buffer) => new protos.WriteDescriptorResponse.fromBuffer(buffer))
         .where((p) =>

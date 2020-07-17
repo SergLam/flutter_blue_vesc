@@ -14,14 +14,16 @@ import 'package:rxdart/rxdart.dart';
 
 import 'gen/flutterblue.pb.dart' as protos;
 
-part 'src/models/bluetooth_characteristic.dart';
-part 'src/models/bluetooth_descriptor.dart';
-part 'src/models/bluetooth_device.dart';
+part 'src/services/bluetooth_characteristic.dart';
+part 'src/services/bluetooth_descriptor.dart';
+part 'src/services/bluetooth_device.dart';
 part 'src/models/bluetooth_service.dart';
 part 'src/models/device_identifier.dart';
 part 'src/models/scan_mode.dart';
 part 'src/models/advertisement_data.dart';
 part 'src/models/scan_result.dart';
+part 'src/models/characteristic_properties.dart';
+
 part 'src/constants.dart';
 part 'src/flutter_blue.dart';
 part 'src/guid.dart';

@@ -137,7 +137,9 @@ class BluetoothCharacteristic {
         .first
         .then((w) => w.success)
         .then((success) => (!success)
-            ? throw new Exception('Failed to write the characteristic')
+            ? throw new PlatformException(code: Constants.WRITE_CHARACTERISTIC_ID,
+                                          message: Constants.WRITE_CHARACTERISTIC_MESSAGE,
+                                          details: this.toString())
             : null)
         .then((_) => null);
   }

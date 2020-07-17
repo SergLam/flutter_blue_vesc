@@ -77,7 +77,9 @@ class BluetoothDescriptor {
         .first
         .then((w) => w.success)
         .then((success) => (!success)
-            ? throw new Exception('Failed to write the descriptor')
+            ? throw new PlatformException(code: Constants.WRITE_DESCRIPTOR_ID,
+                                          message: Constants.WRITE_DESCRIPTOR_MESSAGE,
+                                          details: this.toString())
             : null)
         .then((_) => _value.add(value))
         .then((_) => null);

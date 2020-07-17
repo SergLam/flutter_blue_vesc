@@ -5,6 +5,7 @@
 library flutter_blue;
 
 import 'dart:async';
+import 'src/constants/channel_exceptions.dart' as Constants;
 
 import 'package:collection/collection.dart';
 import 'package:convert/convert.dart';
@@ -24,6 +25,6 @@ part 'src/models/advertisement_data.dart';
 part 'src/models/scan_result.dart';
 part 'src/models/characteristic_properties.dart';
 
-part 'src/constants.dart';
+part 'src/constants/channel_names.dart';
 part 'src/flutter_blue.dart';
 part 'src/guid.dart';

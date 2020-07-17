@@ -31,7 +31,7 @@ class BluetoothDevice {
     if (timeout != null) {
       timer = Timer(timeout, () {
         disconnect();
-        throw TimeoutException('Failed to connect in time.', timeout);
+        throw PlatformException(code: Constants.CONNECT_TIMEOUT_ID, message: 'Failed to connect in time. $timeout', details: timeout);
       });
     }
 
@@ -56,8 +56,11 @@ class BluetoothDevice {
   Future<List<BluetoothService>> discoverServices() async {
     final s = await state.first;
     if (s != BluetoothDeviceState.connected) {
-      return Future.error(new Exception(
-          'Cannot discoverServices while device is not connected. State == $s'));
+      return Future.error(
+        new PlatformException(code: Constants.SCAN_DISCOVER_FAIL_ID,
+                              message: 'Cannot discoverServices while device is not connected. State == $s',
+                              details: 'Cannot discoverServices while device is not connected. State == $s')
+      );
     }
     var response = FlutterBlue.instance._methodStream
         .where((m) => m.method == "$STREAM_DiscoverServicesResult")

@@ -92,7 +92,7 @@ class FlutterBlue {
       ..serviceUuids.addAll(withServices.map((g) => g.toString()).toList());
 
     if (_isScanning.value == true) {
-      throw Exception('Another scan is already in progress.');
+      throw PlatformException(code: Constants.SCAN_BUSY_ID, message: Constants.SCAN_BUSY_MESSAGE, details: Constants.SCAN_BUSY_MESSAGE);
     }
 
     // Emit to isScanning
@@ -113,7 +113,7 @@ class FlutterBlue {
       print('Error starting scan.');
       _stopScanPill.add(null);
       _isScanning.add(false);
-      throw e;
+      throw PlatformException(code: Constants.SCAN_FAIL_ID, message: Constants.SCAN_FAIL_MESSAGE, details: e.toString());
     }
 
     yield* FlutterBlue.instance._methodStream

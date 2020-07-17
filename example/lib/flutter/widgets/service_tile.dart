@@ -22,7 +22,7 @@ class ServiceTile extends StatelessWidget {
             Text('0x${service.uuid.toString().toUpperCase().substring(4, 8)}',
                 style: Theme.of(context)
                     .textTheme
-                    .body1
+                    .bodyText1
                     .copyWith(color: Theme.of(context).textTheme.caption.color))
           ],
         ),

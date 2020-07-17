@@ -5,6 +5,7 @@
 part of flutter_blue;
 
 class BluetoothCharacteristic {
+
   final Guid uuid;
   final DeviceIdentifier deviceId;
   final Guid serviceUuid;

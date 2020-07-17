@@ -5,6 +5,7 @@
 part of flutter_blue;
 
 class BluetoothService {
+
   final Guid uuid;
   final DeviceIdentifier deviceId;
   final bool isPrimary;
